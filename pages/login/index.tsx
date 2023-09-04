@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { CheckInput } from "custom/checkInput";
 import { userAction } from "../../store/reducer/user/user";
-import { TitleDiv } from "custom/TitleDiv";
-import { fetchTest } from "store/reducer/user/thunk";
+import { TitleDiv } from "customComponent/TitleDiv";
+import { CheckInput } from "customComponent/CheckInput";
+import { RootUserState } from "../../store/reducer/user/user";
+import { AddUser, ReadUser } from "apis/apis";
+
 const expression: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i;
 
-export const Login = () => {
-    const email = useSelector((state) => state.user.email);
-    const password = useSelector((state) => state.user.password);
+const Login = () => {
+    const email = useSelector((state: RootUserState) => state.user.email);
+    const password = useSelector((state: RootUserState) => state.user.password);
     const dispatch = useDispatch();
 
     //이메일 검사 validation
@@ -38,18 +40,9 @@ export const Login = () => {
                     }
                 />
             </div>
-            <button
-                onClick={() =>
-                    dispatch(
-                        fetchTest({
-                            email,
-                            password,
-                        }),
-                    )
-                }
-            >
-                테스트
-            </button>
+            <button onClick={() => AddUser(email)}>테스트</button>
         </div>
     );
 };
+
+export default Login;

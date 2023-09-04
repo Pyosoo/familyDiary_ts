@@ -1,10 +1,12 @@
 // store/reducer/user.ts
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchTest } from "./thunk";
-interface userType {
+export interface userType {
     email: string;
     password: string;
-    userInfo: object | null;
+    userInfo: {
+        [key: string]: any;
+    };
 }
 const initialState: userType = {
     email: "",
@@ -21,8 +23,11 @@ export const slice = createSlice({
         user_setPassword: (state, action) => {
             state.password = action.payload;
         },
-        user_setUserInfo: (state, action) => {
-            state.userInfo[action.key] = action.val;
+        user_setUserInfo: (
+            state,
+            action: PayloadAction<{ key: string; val: any }>,
+        ) => {
+            state.userInfo[action.payload.key] = action.payload.val;
         },
     },
     extraReducers: (builder) => {
@@ -39,3 +44,4 @@ export const slice = createSlice({
 export const user = slice.name;
 export const userReducer = slice.reducer;
 export const userAction = slice.actions;
+export type RootUserState = ReturnType<typeof userReducer>;
