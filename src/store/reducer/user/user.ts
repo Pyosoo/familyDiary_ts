@@ -28,7 +28,7 @@ export const slice = createSlice({
             action: PayloadAction<{ key: string; val: any }>,
         ) => {
             state.userInfo[action.payload.key] = action.payload.val;
-        },
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(

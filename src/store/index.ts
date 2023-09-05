@@ -2,8 +2,12 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { HYDRATE, createWrapper } from "next-redux-wrapper";
 import { userReducer } from "./reducer/user/user";
+import { settingReducer } from "./reducer/setting/setting";
 
-const rootReducer = combineReducers({ user: userReducer });
+const rootReducer = combineReducers({ 
+    user: userReducer,
+    setting: settingReducer
+ });
 
 export const makeStore = () => {
     const store = configureStore({
