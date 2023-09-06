@@ -52,6 +52,8 @@ const Login = () => {
                                 snackbarMessage: "로그인에 성공하였습니다.",
                             }),
                         );
+                        dispatch(settingAction.setIsLoginSuccess(true));
+                        dispatch(settingAction.setLoginId(email));
                     } else {
                         dispatch(
                             settingAction.setSnackbar({
