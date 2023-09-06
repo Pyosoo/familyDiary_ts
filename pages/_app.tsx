@@ -1,10 +1,8 @@
-import wrapper from "src/store";
-import { Provider, useDispatch } from "react-redux";
-import { createGlobalStyle } from "styled-components";
+import wrapper, { RootState } from "src/store";
+import { Provider } from "react-redux";
 import { AppProps } from "next/app";
-import Login from "./login";
-import { useEffect } from "react";
 import CustomSnackbar from "@src/customComponent/CustomSnackbar";
+import Layout from "@src/customComponent/Layout";
 
 function MyApp({ Component, pageProps }: AppProps) {
     const { store, props } = wrapper.useWrappedStore(pageProps);
@@ -12,8 +10,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
         <Provider store={store}>
             <CustomSnackbar />
-            <Component {...props} /> {/* index.tsx*/}
-            <Login />
+            <Layout />
+            {/* {isLoginSuccess ? <Component {...props} /> : <Login />} */}
         </Provider>
     );
 }
