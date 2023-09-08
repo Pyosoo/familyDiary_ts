@@ -39,7 +39,6 @@ export const makeStore = (): ExtendedStore => {
 
     return store;
 };
-
 const wrapper = createWrapper<ExtendedStore>(makeStore, {
     debug: process.env.NODE_ENV === "development",
 });

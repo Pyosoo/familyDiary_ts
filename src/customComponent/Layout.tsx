@@ -7,18 +7,9 @@ import styled from "styled-components";
 import Header from "@src/Containers/Header";
 
 export default function Layout() {
-    const isLoginSuccess = useSelector(
-        (state: RootState) => state.setting.isLoginSuccess,
-    );
-
-    return isLoginSuccess ? (
+    return (
         <RootDiv>
             <Header />
-            <Main />
-        </RootDiv>
-    ) : (
-        <RootDiv>
-            <Login />
         </RootDiv>
     );
 }
