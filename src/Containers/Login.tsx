@@ -54,6 +54,8 @@ const Login = () => {
                         );
                         dispatch(settingAction.setIsLoginSuccess(true));
                         dispatch(settingAction.setLoginId(email));
+                        dispatch(userAction.user_setEmail(""));
+                        dispatch(userAction.user_setPassword(""));
                     } else {
                         dispatch(
                             settingAction.setSnackbar({

@@ -18,7 +18,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <PersistGate loading={null} persistor={store.__persistor}>
             <CustomSnackbar />
             {isLoginSuccess ? (
-                <Layout Component={Component} {...pageProps} />
+                <Layout>
+                    <Component {...pageProps} />
+                </Layout>
             ) : (
                 <Login />
             )}

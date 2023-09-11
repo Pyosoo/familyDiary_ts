@@ -1,7 +1,7 @@
 import { configureStore, combineReducers, Store, Action } from "@reduxjs/toolkit";
 import { HYDRATE, createWrapper } from "next-redux-wrapper";
 import { persistReducer, persistStore, Persistor } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import storageSession from 'redux-persist/lib/storage/session'
 
 import { userReducer } from "./reducer/user/user";
 import { settingReducer } from "./reducer/setting/setting";
@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
 
 const persistConfig = {
     key: 'root',
-    storage,
+    storage: storageSession,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
