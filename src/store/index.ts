@@ -5,10 +5,12 @@ import storageSession from 'redux-persist/lib/storage/session'
 
 import { userReducer } from "./reducer/user/user";
 import { settingReducer } from "./reducer/setting/setting";
+import { diaryReducer } from "./reducer/diary/diary";
 
 const rootReducer = combineReducers({
     user: userReducer,
-    setting: settingReducer
+    setting: settingReducer,
+    diary: diaryReducer
 });
 
 const persistConfig = {

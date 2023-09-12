@@ -6,6 +6,9 @@ export default function MyPage() {
         <>
             <SectionDiv>
                 <h3>그룹 관리</h3>
+                1인 1그룹을 원칙으로 함. 그룹장일시 다른그룹 참여불가.
+                그룹원일시 그룹생성 불가.
+                <div onClick={(e) => {}}>그룹 생성</div>
             </SectionDiv>
         </>
     );

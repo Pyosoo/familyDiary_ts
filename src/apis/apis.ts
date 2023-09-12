@@ -52,3 +52,7 @@ export async function AddUser(id: string) {
         });
     return res;
 }
+
+export async function makeGroup(id: string){
+    
+}

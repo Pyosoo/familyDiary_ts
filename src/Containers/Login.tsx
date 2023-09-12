@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "src/store/reducer/user/user";
-import { TitleDiv } from "src/customComponent/TitleDiv";
-import { CheckInput } from "src/customComponent/CheckInput";
+import { TitleDiv } from "@src/styledComponent/TitleDiv";
+import { CheckInput } from "@src/styledComponent/CheckInput";
 import { RootState } from "src/store";
 import { AddUser, CheckUser } from "src/apis/apis";
 import { settingAction } from "@src/store/reducer/setting/setting";
