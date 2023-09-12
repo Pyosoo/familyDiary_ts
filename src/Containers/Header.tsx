@@ -32,7 +32,13 @@ export default function Header() {
                         event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
                     ) => {
                         dispatch(settingAction.setIsLoginSuccess(false));
-                        dispatch(settingAction.setLoginId(""));
+                        dispatch(
+                            userAction.setUserInfo({
+                                id: "",
+                                group: false,
+                                groupLeader: "",
+                            }),
+                        );
                         dispatch(userAction.user_setEmail(""));
                         dispatch(userAction.user_setPassword(""));
                     }}>

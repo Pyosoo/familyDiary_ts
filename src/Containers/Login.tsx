@@ -53,7 +53,11 @@ const Login = () => {
                             }),
                         );
                         dispatch(settingAction.setIsLoginSuccess(true));
-                        dispatch(settingAction.setLoginId(email));
+                        dispatch(
+                            userAction.setUserInfo({
+                                id: email,
+                            }),
+                        );
                         dispatch(userAction.user_setEmail(""));
                         dispatch(userAction.user_setPassword(""));
                     } else {

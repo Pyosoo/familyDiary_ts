@@ -6,14 +6,20 @@ export interface userType {
   email: string;
   password: string;
   userInfo: {
-    [key: string]: any;
+    id: string;
+    group: boolean;
+    groupLeader: string;
   };
 }
 
 const initialState: userType = {
   email: "",
   password: "",
-  userInfo: {},
+  userInfo: {
+    id: '',
+    group: false,
+    groupLeader: ''
+  },
 };
 
 const userSlice = createSlice({
@@ -26,8 +32,17 @@ const userSlice = createSlice({
     user_setPassword: (state, action) => {
       state.password = action.payload;
     },
-    user_setUserInfo: (state, action: PayloadAction<{ key: string; val: any }>) => {
-      state.userInfo[action.payload.key] = action.payload.val;
+    setUserInfo: (state, action: PayloadAction<{ id: string, group?: boolean, groupLeader?: string }>) => {
+      const newUserInfo = {
+        ...state.userInfo,
+        ...action.payload
+      };
+    
+      // 변경된 상태를 반환합니다.
+      return {
+        ...state,
+        userInfo: newUserInfo,
+      };
     },
   },
   extraReducers: (builder) => {
