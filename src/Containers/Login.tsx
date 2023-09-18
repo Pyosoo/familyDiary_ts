@@ -6,6 +6,9 @@ import { CheckInput } from "@src/styledComponent/CheckInput";
 import { RootState } from "src/store";
 import { AddUser, CheckUser } from "src/apis/apis";
 import { settingAction } from "@src/store/reducer/setting/setting";
+import { RootDiv } from "@src/styledComponent/RootDiv";
+import Image from "next/image";
+import { MarginAutoDiv } from "@src/styledComponent/MarginAutoDiv";
 
 const expression: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i;
 
@@ -17,97 +20,138 @@ const Login = () => {
     //이메일 검사 validation
 
     return (
-        <div>
-            Login 컴포넌트
-            <div>
-                <TitleDiv>이메일주소</TitleDiv>
-                <CheckInput
-                    formatcheck={expression.test(email).toString()}
-                    placeholder="email"
-                    value={email}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        dispatch(userAction.user_setEmail(e.target.value))
-                    }
+        <RootDiv
+            style={{
+                backgroundImage: `url('/Images/login_back.png')`,
+            }}>
+            <MarginAutoDiv>
+                <Image
+                    src="/Images/logo_text.png"
+                    width={676}
+                    height={183}
+                    alt="logo"
                 />
-            </div>
-            <div>
-                <TitleDiv>비밀번호</TitleDiv>
-                <CheckInput
-                    formatcheck={"true"}
-                    placeholder="password"
-                    value={password}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        dispatch(userAction.user_setPassword(e.target.value))
-                    }
-                />
-            </div>
-            <button
-                onClick={async () => {
-                    const res = await CheckUser(email);
-                    if (res) {
-                        dispatch(
-                            settingAction.setSnackbar({
-                                snackbarOpen: true,
-                                snackbarType: "success",
-                                snackbarMessage: "로그인에 성공하였습니다.",
-                            }),
-                        );
-                        dispatch(settingAction.setIsLoginSuccess(true));
-                        dispatch(
-                            userAction.setUserInfo({
-                                id: email,
-                            }),
-                        );
-                        dispatch(userAction.user_setEmail(""));
-                        dispatch(userAction.user_setPassword(""));
-                    } else {
-                        dispatch(
-                            settingAction.setSnackbar({
-                                snackbarOpen: true,
-                                snackbarType: "error",
-                                snackbarMessage: "로그인에 실패했습니다.",
-                            }),
-                        );
-                    }
+            </MarginAutoDiv>
+            <MarginAutoDiv
+                style={{
+                    width: 350,
+                    height: 350,
+                    backgroundColor: "white",
+                    borderRadius: 200,
                 }}>
-                로그인
-            </button>
-            <button
-                onClick={async () => {
-                    const res = await CheckUser(email);
-                    if (res) {
-                        dispatch(
-                            settingAction.setSnackbar({
-                                snackbarOpen: true,
-                                snackbarType: "error",
-                                snackbarMessage: "이미 등록된 아이디입니다.",
-                            }),
-                        );
-                    } else {
-                        const res = await AddUser(email);
-                        if (res) {
-                            dispatch(
-                                settingAction.setSnackbar({
-                                    snackbarOpen: true,
-                                    snackbarType: "success",
-                                    snackbarMessage:
-                                        "회원가입에 성공하였습니다.",
-                                }),
-                            );
-                        } else {
-                            dispatch(
-                                settingAction.setSnackbar({
-                                    snackbarOpen: true,
-                                    snackbarType: "error",
-                                    snackbarMessage: res,
-                                }),
-                            );
+                <div style={{ paddingTop: 50, marginLeft: 30 }}>
+                    <Image
+                        src="/Images/house.png"
+                        width={299}
+                        height={235}
+                        alt="logo"
+                    />
+                </div>
+            </MarginAutoDiv>
+            <div style={{ display: "flex" }}>
+                <MarginAutoDiv>
+                    <TitleDiv>E-mail</TitleDiv>
+                    <CheckInput
+                        formatcheck={expression.test(email).toString()}
+                        placeholder="email"
+                        value={email}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            dispatch(userAction.user_setEmail(e.target.value))
                         }
-                    }
-                }}>
-                회원가입
-            </button>
-        </div>
+                    />
+                </MarginAutoDiv>
+                <MarginAutoDiv>
+                    <TitleDiv>Password</TitleDiv>
+                    <CheckInput
+                        formatcheck={"true"}
+                        placeholder="password"
+                        value={password}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            dispatch(
+                                userAction.user_setPassword(e.target.value),
+                            )
+                        }
+                    />
+                </MarginAutoDiv>
+            </div>
+            <MarginAutoDiv style={{ display: "flex" }}>
+                <div>
+                    <div>EMAIL</div>
+                    <button
+                        onClick={async () => {
+                            const res = await CheckUser(email);
+                            if (res) {
+                                dispatch(
+                                    settingAction.setSnackbar({
+                                        snackbarOpen: true,
+                                        snackbarType: "success",
+                                        snackbarMessage:
+                                            "로그인에 성공하였습니다.",
+                                    }),
+                                );
+                                dispatch(settingAction.setIsLoginSuccess(true));
+                                dispatch(
+                                    userAction.setUserInfo({
+                                        id: email,
+                                    }),
+                                );
+                                dispatch(userAction.user_setEmail(""));
+                                dispatch(userAction.user_setPassword(""));
+                            } else {
+                                dispatch(
+                                    settingAction.setSnackbar({
+                                        snackbarOpen: true,
+                                        snackbarType: "error",
+                                        snackbarMessage:
+                                            "로그인에 실패했습니다.",
+                                    }),
+                                );
+                            }
+                        }}>
+                        로그인
+                    </button>
+                </div>
+                <div>
+                    <div>PASSWORD</div>
+                    <button
+                        onClick={async () => {
+                            const res = await CheckUser(email);
+                            if (res) {
+                                dispatch(
+                                    settingAction.setSnackbar({
+                                        snackbarOpen: true,
+                                        snackbarType: "error",
+                                        snackbarMessage:
+                                            "이미 등록된 아이디입니다.",
+                                    }),
+                                );
+                            } else {
+                                const res = await AddUser(email);
+                                if (res) {
+                                    dispatch(
+                                        settingAction.setSnackbar({
+                                            snackbarOpen: true,
+                                            snackbarType: "success",
+                                            snackbarMessage:
+                                                "회원가입에 성공하였습니다.",
+                                        }),
+                                    );
+                                } else {
+                                    dispatch(
+                                        settingAction.setSnackbar({
+                                            snackbarOpen: true,
+                                            snackbarType: "error",
+                                            snackbarMessage: res,
+                                        }),
+                                    );
+                                }
+                            }
+                        }}>
+                        회원가입
+                    </button>
+                </div>
+            </MarginAutoDiv>
+        </RootDiv>
     );
 };
 
