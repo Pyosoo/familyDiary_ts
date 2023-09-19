@@ -9,6 +9,7 @@ import { settingAction } from "@src/store/reducer/setting/setting";
 import { RootDiv } from "@src/styledComponent/RootDiv";
 import Image from "next/image";
 import { MarginAutoDiv } from "@src/styledComponent/MarginAutoDiv";
+import styled from "styled-components";
 
 const expression: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i;
 
@@ -74,10 +75,9 @@ const Login = () => {
                     />
                 </MarginAutoDiv>
             </div>
-            <MarginAutoDiv style={{ display: "flex" }}>
+            <MarginAutoDiv>
                 <div>
-                    <div>EMAIL</div>
-                    <button
+                    <GreenButton
                         onClick={async () => {
                             const res = await CheckUser(email);
                             if (res) {
@@ -108,12 +108,11 @@ const Login = () => {
                                 );
                             }
                         }}>
-                        로그인
-                    </button>
+                        SIGN IN
+                    </GreenButton>
                 </div>
                 <div>
-                    <div>PASSWORD</div>
-                    <button
+                    <GreenButton
                         onClick={async () => {
                             const res = await CheckUser(email);
                             if (res) {
@@ -147,8 +146,8 @@ const Login = () => {
                                 }
                             }
                         }}>
-                        회원가입
-                    </button>
+                        SIGN UP
+                    </GreenButton>
                 </div>
             </MarginAutoDiv>
         </RootDiv>
@@ -156,3 +155,19 @@ const Login = () => {
 };
 
 export default Login;
+
+const GreenButton = styled.button`
+    width: 300px;
+    height: 35px;
+    line-height: 35px;
+    vertical-align: middle;
+    background-color: #066b1c;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    margin-top: 30px;
+    &:hover {
+        background-color: green;
+        cursor: pointer;
+    }
+`;

@@ -1,31 +1,73 @@
 import styled from "styled-components";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-import { getUser, makeGroup } from "@src/apis/apis";
+import {
+    deleteGroupMember,
+    getGroupList,
+    getUser,
+    inviteGroup,
+    makeGroup,
+} from "@src/apis/apis";
 import { useDispatch, useSelector } from "react-redux";
 import { settingAction } from "@src/store/reducer/setting/setting";
 import { RootState } from "@src/store";
 import { userAction } from "@src/store/reducer/user/user";
+import { diaryAction } from "@src/store/reducer/diary/diary";
 
 export default function MyPage() {
+    const [inviteMember, setInviteMembe] = useState<string>("");
+
     const dispatch = useDispatch();
 
     const userId = useSelector((state: RootState) => state.user.userInfo.id);
+    const groupList = useSelector((state: RootState) => state.diary.groupList);
 
     useEffect(() => {
         async function getUserApi() {
             const data = await getUser(userId);
-            console.log(data);
             if (data) {
                 dispatch(userAction.setUserInfo(data.userId));
             }
         }
         getUserApi();
+
+        async function getGroupApi() {
+            const data = await getGroupList(userId);
+            if (data) {
+                dispatch(diaryAction.setGroupList(data));
+            }
+        }
+        getGroupApi();
     }, []);
+
+    const handleInviteGroup = async () => {
+        const result = await inviteGroup(userId, inviteMember).then(
+            (res) => res,
+        );
+        if (result.success) {
+            dispatch(
+                settingAction.setSnackbar({
+                    snackbarOpen: true,
+                    snackbarType: "success",
+                    snackbarMessage: result.message,
+                }),
+            );
+            dispatch(diaryAction.setGroupList([...groupList, inviteMember]));
+            setInviteMembe("");
+        } else {
+            dispatch(
+                settingAction.setSnackbar({
+                    snackbarOpen: true,
+                    snackbarType: "error",
+                    snackbarMessage: result.message,
+                }),
+            );
+        }
+    };
     return (
         <>
             {/* {loginInfo.loginId} */}
-            <h3>그룹 관리</h3>
+            <h3 onClick={() => console.log(groupList)}>그룹 관리</h3>
             <SectionDiv>
                 그룹 생성하기 1인 1그룹을 원칙으로 함. 그룹장일시 다른그룹
                 참여불가. 그룹원일시 그룹생성 불가.
@@ -57,7 +99,67 @@ export default function MyPage() {
                 </div>
             </SectionDiv>
 
-            <SectionDiv>그룹원리스트</SectionDiv>
+            <SectionDiv>
+                <div>
+                    <input
+                        value={inviteMember}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            setInviteMembe(e.target.value)
+                        }
+                    />
+                    <button onClick={handleInviteGroup}>그룹초대</button>
+                </div>
+
+                <div>그룹원 리스트</div>
+                <div>
+                    {groupList
+                        .filter((member) => member !== userId)
+                        .map((d, i) => {
+                            return (
+                                <div key={i}>
+                                    {d}
+                                    <button
+                                        onClick={async () => {
+                                            const result =
+                                                await deleteGroupMember(
+                                                    userId,
+                                                    d,
+                                                );
+                                            if (result.success) {
+                                                dispatch(
+                                                    settingAction.setSnackbar({
+                                                        snackbarOpen: true,
+                                                        snackbarType: "success",
+                                                        snackbarMessage:
+                                                            result.message,
+                                                    }),
+                                                );
+                                                dispatch(
+                                                    diaryAction.setGroupList(
+                                                        groupList.filter(
+                                                            (member) =>
+                                                                member !== d,
+                                                        ),
+                                                    ),
+                                                );
+                                            } else {
+                                                dispatch(
+                                                    settingAction.setSnackbar({
+                                                        snackbarOpen: true,
+                                                        snackbarType: "error",
+                                                        snackbarMessage:
+                                                            result.message,
+                                                    }),
+                                                );
+                                            }
+                                        }}>
+                                        삭제
+                                    </button>
+                                </div>
+                            );
+                        })}
+                </div>
+            </SectionDiv>
         </>
     );
 }

@@ -1,10 +1,12 @@
 import React from "react";
+import MainCalander from "./MainCalander";
 
 export default function Main() {
     return (
         <>
-            Main 페이지 달력이 있고, 달력에서 날짜 클릭시, 해당 날짜에 그룹원이
-            기록한 일기 리스트를 볼수 있다.
+            <MainCalander />
+
+            <div>해당 날짜의 일기 리스트 (나의 그룹만)</div>
         </>
     );
 }

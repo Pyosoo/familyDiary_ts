@@ -1,10 +1,10 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-
 import { settingAction } from "@src/store/reducer/setting/setting";
 import { userAction } from "@src/store/reducer/user/user";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 export default function Header() {
     const dispatch = useDispatch();
@@ -15,7 +15,15 @@ export default function Header() {
     };
 
     return (
-        <MyHeader>
+        <MyHeader className="headerDiv">
+            <div>
+                <Image
+                    src="/Images/logo.png"
+                    width={50}
+                    height={40}
+                    alt="logo"
+                />
+            </div>
             <TitleDiv onClick={() => changeRouter("/")}>
                 패밀리 다이어리
             </TitleDiv>
@@ -59,29 +67,41 @@ const MyHeader = styled.div`
     vertical-align: middle;
     background-color: yellow;
     justify-content: center;
+    margin-bottom: 50px;
+    background-color: green;
 `;
 
 const LogoutBtn = styled.button`
     background-color: transparent;
-    color: black;
+    color: white;
+    border: none;
+    &:hover {
+        cursor: pointer;
+    }
 `;
 
 const SubLine = styled.div`
     margin-left: auto;
     display: flex;
+    color: white;
 `;
 
 const TitleDiv = styled.div`
     font-size: 1.2rem;
     color: blue;
-    font-weight: bold;
+    color: white;
+    &:hover {
+        cursor: pointer;
+        font-weight: bold;
+    }
 `;
 
 const SubTitleDiv = styled.div`
     font-size: 1rem;
-    color: black;
-    font-weight: bold;
+    margin-left: 5px;
+    margin-right: 5px;
     &:hover {
+        font-weight: bold;
         cursor: pointer;
     }
 `;
