@@ -43,21 +43,32 @@ export async function CheckUser(id: string) {
 
 export async function AddUser(id: string) {
     const database = getDatabase(app); // Firebase 데이터베이스 가져오기
-    const dataRef = ref(database, `/user/${id}`);
-
-    const res = set(dataRef, {
-        id: id,
-        group: false,
-        groupLeader: ""
-    })
-        .then(() => {
-            return true;
+    let pattern = /[.#$\[\]]/;
+    if(pattern.test(id)){
+        return {
+            success: false,
+            message: `특수문자 ".", "#", "$", "[", "]" 는 포함할수 없습니다.`
+        };
+    } else {
+        const dataRef = ref(database, `/user/${id}`);
+        const res = set(dataRef, {
+            id: id,
+            group: false,
+            groupLeader: ""
         })
-        .catch((error) => {
-            console.error("Error writing data:", error);
-            return error;
-        });
-    return res;
+            .then(() => {
+                return {
+                    success: true,
+                    message:"회원가입에 성공했습니다."
+                };
+            })
+            .catch((error) => {
+                console.error("Error writing data:", error);
+                return error;
+            });
+        return res;
+    }
+   
 }
 
 export async function getUser(id: string){
@@ -259,6 +270,21 @@ export async function writeDiary(id:string, title:string, content:string){
             message: "일기를 추가했습니다."
         }
     } catch(err) {
+        console.log(err);
+    }
+}
+
+export async function loadDiary(id:string, date: Date){
+    const database = getDatabase(app);
+    let path = moment(date).utc(true).format('YYYY_MM_DD');
+
+    const diaryRef = ref(database, `/diary/${path}`);
+
+    console.log(id, path)
+    try{
+        const res = await get(diaryRef);
+        return res.val();
+    } catch (err) {
         console.log(err);
     }
 }

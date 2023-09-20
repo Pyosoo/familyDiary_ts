@@ -6,6 +6,7 @@ import CustomSnackbar from "@src/customComponent/CustomSnackbar";
 import Layout from "@src/customComponent/Layout";
 import "../styles/style.css";
 import Login from "@src/Containers/Login";
+import "react-calendar/dist/Calendar.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
     const { store } = wrapper.useWrappedStore(pageProps);

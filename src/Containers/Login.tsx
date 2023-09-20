@@ -4,7 +4,7 @@ import { userAction } from "src/store/reducer/user/user";
 import { TitleDiv } from "@src/styledComponent/TitleDiv";
 import { CheckInput } from "@src/styledComponent/CheckInput";
 import { RootState } from "src/store";
-import { AddUser, CheckUser } from "src/apis/apis";
+import { AddUser, CheckUser, getUser } from "src/apis/apis";
 import { settingAction } from "@src/store/reducer/setting/setting";
 import { RootDiv } from "@src/styledComponent/RootDiv";
 import Image from "next/image";
@@ -51,7 +51,7 @@ const Login = () => {
             </MarginAutoDiv>
             <div style={{ display: "flex" }}>
                 <MarginAutoDiv>
-                    <TitleDiv>E-mail</TitleDiv>
+                    <TitleDiv>ID</TitleDiv>
                     <CheckInput
                         formatcheck={expression.test(email).toString()}
                         placeholder="email"
@@ -95,6 +95,22 @@ const Login = () => {
                                         id: email,
                                     }),
                                 );
+                                const result = await getUser(email).then(
+                                    (r) => r,
+                                );
+                                if (result) {
+                                    console.log(result);
+                                    dispatch(
+                                        userAction.setUserInfo({
+                                            id: email,
+                                            groupLeader: result.groupLeader,
+                                            group: result.groupLeader
+                                                ? true
+                                                : false,
+                                        }),
+                                    );
+                                }
+
                                 dispatch(userAction.user_setEmail(""));
                                 dispatch(userAction.user_setPassword(""));
                             } else {
@@ -126,13 +142,12 @@ const Login = () => {
                                 );
                             } else {
                                 const res = await AddUser(email);
-                                if (res) {
+                                if (res.success) {
                                     dispatch(
                                         settingAction.setSnackbar({
                                             snackbarOpen: true,
                                             snackbarType: "success",
-                                            snackbarMessage:
-                                                "회원가입에 성공하였습니다.",
+                                            snackbarMessage: res.message,
                                         }),
                                     );
                                 } else {
@@ -140,7 +155,7 @@ const Login = () => {
                                         settingAction.setSnackbar({
                                             snackbarOpen: true,
                                             snackbarType: "error",
-                                            snackbarMessage: res,
+                                            snackbarMessage: res.message,
                                         }),
                                     );
                                 }

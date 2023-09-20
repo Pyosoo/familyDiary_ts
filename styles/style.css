@@ -1,4 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+@import url('https://webfontworld.github.io/woowahan/BMJua.css');
+
+@font-face {
+    font-family: 'BMJUA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 
 body{
@@ -6,4 +14,15 @@ body{
 }
 .headerDiv{
     font-family: 'Black Han Sans', sans-serif;
+}
+
+
+.react-calendar{
+    width: 100% !important;
+    font-family: 'BMJUA', sans-serif !important;
+    font-weight: 400;
+}
+.react-calendar button {
+    font-family: 'BMJUA', sans-serif !important;
+    font-weight: 400;
 }

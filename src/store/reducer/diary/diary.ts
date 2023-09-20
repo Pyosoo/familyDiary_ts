@@ -2,9 +2,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 
 // 일기 목록, 일기작성에 관한것
+interface diaryContentType{
+  id: string;
+  title: string;
+  content: string;
+}
 interface diaryType {
     groupList: Array<string>;
-    diaryList: Array<object>;
+    diaryList: Array<diaryContentType>;
     diaryInfo: {
         id: string;
         title: string;
@@ -37,7 +42,7 @@ const diarySlice = createSlice({
     setGroupList: (state, action: PayloadAction<Array<string>>) => {
       state.groupList= action.payload
     },
-    setDiaryList: (state, action: PayloadAction<Array<object>>) => {
+    setDiaryList: (state, action: PayloadAction<Array<diaryContentType>>) => {
       state.diaryList = action.payload;
     },
     setDiaryInfo: (state, action: PayloadAction<{ id: string, title: string, content: string }>) => {

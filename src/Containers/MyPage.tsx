@@ -15,7 +15,7 @@ import { userAction } from "@src/store/reducer/user/user";
 import { diaryAction } from "@src/store/reducer/diary/diary";
 
 export default function MyPage() {
-    const [inviteMember, setInviteMembe] = useState<string>("");
+    const [inviteMember, setInviteMember] = useState<string>("");
 
     const dispatch = useDispatch();
 
@@ -53,7 +53,7 @@ export default function MyPage() {
                 }),
             );
             dispatch(diaryAction.setGroupList([...groupList, inviteMember]));
-            setInviteMembe("");
+            setInviteMember("");
         } else {
             dispatch(
                 settingAction.setSnackbar({
@@ -71,7 +71,7 @@ export default function MyPage() {
             <SectionDiv>
                 그룹 생성하기 1인 1그룹을 원칙으로 함. 그룹장일시 다른그룹
                 참여불가. 그룹원일시 그룹생성 불가.
-                <div
+                <button
                     onClick={async () => {
                         const result = await makeGroup(userId).then(
                             (res) => res,
@@ -96,7 +96,7 @@ export default function MyPage() {
                         }
                     }}>
                     그룹 생성
-                </div>
+                </button>
             </SectionDiv>
 
             <SectionDiv>
@@ -104,13 +104,14 @@ export default function MyPage() {
                     <input
                         value={inviteMember}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            setInviteMembe(e.target.value)
+                            setInviteMember(e.target.value)
                         }
                     />
                     <button onClick={handleInviteGroup}>그룹초대</button>
                 </div>
 
                 <div>그룹원 리스트</div>
+                <div>그룹장:</div>
                 <div>
                     {groupList
                         .filter((member) => member !== userId)

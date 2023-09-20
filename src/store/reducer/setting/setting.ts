@@ -11,6 +11,9 @@ interface settingType {
     snackbarType: string;
     snackbarMessage: string;
   };
+
+  // 메인 켈린더 날짜 관련
+  selectDate: Date;
 }
 
 const initialState: settingType = {
@@ -20,13 +23,18 @@ const initialState: settingType = {
     snackbarOpen: false,
     snackbarType: 'error',
     snackbarMessage: ''
-  }
+  },
+
+  selectDate: new Date()
 };
 
 const settingSlice = createSlice({
   name: "setting",
   initialState,
   reducers: {
+    setSelectDate: (state, action: PayloadAction<Date>) => {
+      state.selectDate = action.payload
+    },
     setIsLoginSuccess: (state, action: PayloadAction<boolean>) => {
       state.isLoginSuccess = action.payload;
     },
