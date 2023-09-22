@@ -11,6 +11,7 @@ import { settingAction } from "@src/store/reducer/setting/setting";
 import { loadDiary } from "@src/apis/apis";
 import userSlice from "@src/store/reducer/user/user";
 import { diaryAction } from "@src/store/reducer/diary/diary";
+import ListTable from "@src/customComponent/ListTable";
 
 export default function MainCalander() {
     const selectDate = useSelector(
@@ -34,6 +35,8 @@ export default function MainCalander() {
         loadDiaryFunc();
     }, [selectDate]);
 
+    console.log(diaryList);
+
     return (
         <>
             <Calendar
@@ -46,14 +49,7 @@ export default function MainCalander() {
 
             <div>
                 {diaryList.length > 0 ? (
-                    diaryList.map((d, index) => {
-                        return (
-                            <div key={index} style={{ display: "flex" }}>
-                                <div>작성자: {d.id}</div>
-                                <div>제목: {d.title}</div>
-                            </div>
-                        );
-                    })
+                    <ListTable listItems={diaryList} />
                 ) : (
                     <div>해당 날짜에 작성된 일기가 없습니다.</div>
                 )}

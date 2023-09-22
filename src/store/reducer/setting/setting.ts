@@ -14,6 +14,8 @@ interface settingType {
 
   // 메인 켈린더 날짜 관련
   selectDate: Date;
+  diaryModalOpen: boolean;
+  diaryModalData: object;
 }
 
 const initialState: settingType = {
@@ -25,7 +27,13 @@ const initialState: settingType = {
     snackbarMessage: ''
   },
 
-  selectDate: new Date()
+  selectDate: new Date(),
+  diaryModalOpen: false,
+  diaryModalData: {
+    id: '',
+    title: '',
+    content: ''
+  }
 };
 
 const settingSlice = createSlice({
@@ -44,6 +52,12 @@ const settingSlice = createSlice({
     setSnackbar: (state, action: PayloadAction<{ snackbarOpen: boolean; snackbarType: string; snackbarMessage: string }>) => {
       state.snackbar = action.payload;
     },
+    setDiaryModalOpen: (state, action: PayloadAction<boolean>) => {
+      state.diaryModalOpen = action.payload
+    },
+    setDiaryModalData: (state, action: PayloadAction<object>) => {
+      state.diaryModalData = action.payload
+    }
   },
   extraReducers: (builder) => {},
 });

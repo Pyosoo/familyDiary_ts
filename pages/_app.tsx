@@ -7,6 +7,7 @@ import Layout from "@src/customComponent/Layout";
 import "../styles/style.css";
 import Login from "@src/Containers/Login";
 import "react-calendar/dist/Calendar.css";
+import DiaryModal from "@src/customComponent/DiaryModal";
 
 function MyApp({ Component, pageProps }: AppProps) {
     const { store } = wrapper.useWrappedStore(pageProps);
@@ -18,6 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
         <PersistGate loading={null} persistor={store.__persistor}>
             <CustomSnackbar />
+            <DiaryModal />
             {isLoginSuccess ? (
                 <Layout>
                     <Component {...pageProps} />

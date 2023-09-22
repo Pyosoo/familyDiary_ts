@@ -277,13 +277,18 @@ export async function writeDiary(id:string, title:string, content:string){
 export async function loadDiary(id:string, date: Date){
     const database = getDatabase(app);
     let path = moment(date).utc(true).format('YYYY_MM_DD');
-
+    console.log(path)
     const diaryRef = ref(database, `/diary/${path}`);
+    const userRef = ref(database, `/user/${id}`);
 
-    console.log(id, path)
     try{
         const res = await get(diaryRef);
-        return res.val();
+        const userInfo = await get(userRef);
+        const groupMembers = await getGroupList(userInfo.val().groupLeader)
+        console.log(userInfo.val())
+        console.log(res.val())
+        console.log(groupMembers);
+        return Object.values(res.val()).filter(d => groupMembers.indexOf(d.id) !== -1);
     } catch (err) {
         console.log(err);
     }
