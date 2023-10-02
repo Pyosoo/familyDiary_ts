@@ -277,7 +277,6 @@ export async function writeDiary(id:string, title:string, content:string){
 export async function loadDiary(id:string, date: Date){
     const database = getDatabase(app);
     let path = moment(date).utc(true).format('YYYY_MM_DD');
-    console.log(path)
     const diaryRef = ref(database, `/diary/${path}`);
     const userRef = ref(database, `/user/${id}`);
 
@@ -285,10 +284,7 @@ export async function loadDiary(id:string, date: Date){
         const res = await get(diaryRef);
         const userInfo = await get(userRef);
         const groupMembers = await getGroupList(userInfo.val().groupLeader)
-        console.log(userInfo.val())
-        console.log(res.val())
-        console.log(groupMembers);
-        return Object.values(res.val()).filter(d => groupMembers.indexOf(d.id) !== -1);
+        return Object.values(res.val()).filter((d: {id: string, content: string, title: string}) => groupMembers.includes(d.id));
     } catch (err) {
         console.log(err);
     }

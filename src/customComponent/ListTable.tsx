@@ -6,6 +6,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { useSelector } from "react-redux";
+import { RootState } from "@src/store";
 
 function createData(id: string, title: string) {
     return { id, title };
@@ -17,9 +19,8 @@ interface itemInterface {
     content: string;
 }
 
-export default function ListTable(listItems: Array<itemInterface>) {
-    console.log(listItems.listItems);
-
+export default function ListTable() {
+    const diaryList = useSelector((state: RootState) => state.diary.diaryList);
     return (
         <TableContainer component={Paper} style={{ maxHeight: 460 }}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -31,7 +32,7 @@ export default function ListTable(listItems: Array<itemInterface>) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {listItems.listItems
+                    {diaryList
                         .map((item: itemInterface) =>
                             createData(item.id, item.title),
                         )
