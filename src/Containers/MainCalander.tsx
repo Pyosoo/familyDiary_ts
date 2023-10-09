@@ -8,6 +8,7 @@ import { loadDiary } from "@src/apis/apis";
 import { diaryAction } from "@src/store/reducer/diary/diary";
 import ListTable from "@src/customComponent/ListTable";
 import { LoadingOutlined } from "@ant-design/icons";
+import { RootDiv } from "@src/styledComponent/RootDiv";
 
 interface itemInterface {
     id: string;
@@ -46,12 +47,21 @@ export default function MainCalander() {
     };
 
     return (
-        <>
-            <Calendar
-                onChange={(value: Date) => handleChangeSelectDate(value)}
-                defaultValue={new Date()}
-                value={selectDate}
-            />
+        <div style={{ display: "flex" }}>
+            <div
+                style={{
+                    width: 512,
+                    height: 780,
+                }}>
+                <Calendar
+                    onChange={(value: Date) => {
+                        console.log("실행");
+                        dispatch(settingAction.setSelectDate(value));
+                    }}
+                    defaultValue={new Date()}
+                    value={selectDate}
+                />
+            </div>
 
             <div>
                 {diaryLoading ? (
@@ -62,6 +72,6 @@ export default function MainCalander() {
                     <div>해당 날짜에 작성된 일기가 없습니다.</div>
                 )}
             </div>
-        </>
+        </div>
     );
 }

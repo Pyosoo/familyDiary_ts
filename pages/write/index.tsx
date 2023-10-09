@@ -5,6 +5,7 @@ import useAuth from "@src/hooks/useAuth";
 import { RootState } from "@src/store";
 import { diaryAction } from "@src/store/reducer/diary/diary";
 import { settingAction } from "@src/store/reducer/setting/setting";
+import { Div1024 } from "@src/styledComponent/Div1024";
 import { Div400 } from "@src/styledComponent/Div400";
 import { FlexDiv } from "@src/styledComponent/FlexDiv";
 import { Router, useRouter } from "next/router";
@@ -53,7 +54,7 @@ export default function Page() {
     };
 
     return (
-        <Div400>
+        <Div1024>
             <FlexDiv>
                 <SubTitle>일기제목</SubTitle>
                 <TypingInput
@@ -84,7 +85,7 @@ export default function Page() {
             </FlexDiv>
 
             <button onClick={writeDiaryFunc}>작성</button>
-        </Div400>
+        </Div1024>
     );
 }
 

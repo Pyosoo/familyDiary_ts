@@ -18,39 +18,96 @@ const Login = () => {
     const password = useSelector((state: RootState) => state.user.password);
     const dispatch = useDispatch();
 
+    const SignIn = async () => {
+        const res = await CheckUser(email);
+        if (res) {
+            dispatch(
+                settingAction.setSnackbar({
+                    snackbarOpen: true,
+                    snackbarType: "success",
+                    snackbarMessage: "로그인에 성공하였습니다.",
+                }),
+            );
+            dispatch(settingAction.setIsLoginSuccess(true));
+            dispatch(
+                userAction.setUserInfo({
+                    id: email,
+                }),
+            );
+            const result = await getUser(email).then((r) => r);
+            if (result) {
+                console.log(result);
+                dispatch(
+                    userAction.setUserInfo({
+                        id: email,
+                        groupLeader: result.groupLeader,
+                        group: result.groupLeader ? true : false,
+                    }),
+                );
+            }
+
+            dispatch(userAction.user_setEmail(""));
+            dispatch(userAction.user_setPassword(""));
+        } else {
+            dispatch(
+                settingAction.setSnackbar({
+                    snackbarOpen: true,
+                    snackbarType: "error",
+                    snackbarMessage: "로그인에 실패했습니다.",
+                }),
+            );
+        }
+    };
+
+    const SingUp = async () => {
+        const res = await CheckUser(email);
+        if (res) {
+            dispatch(
+                settingAction.setSnackbar({
+                    snackbarOpen: true,
+                    snackbarType: "error",
+                    snackbarMessage: "이미 등록된 아이디입니다.",
+                }),
+            );
+        } else {
+            const res = await AddUser(email);
+            if (res.success) {
+                dispatch(
+                    settingAction.setSnackbar({
+                        snackbarOpen: true,
+                        snackbarType: "success",
+                        snackbarMessage: res.message,
+                    }),
+                );
+            } else {
+                dispatch(
+                    settingAction.setSnackbar({
+                        snackbarOpen: true,
+                        snackbarType: "error",
+                        snackbarMessage: res.message,
+                    }),
+                );
+            }
+        }
+    };
+
     //이메일 검사 validation
 
     return (
         <RootDiv
             style={{
-                backgroundImage: `url('/Images/login_back.png')`,
+                backgroundImage: `url('/Images/login_main.png')`,
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
             }}>
-            <MarginAutoDiv>
-                <Image
-                    src="/Images/logo_text.png"
-                    width={676}
-                    height={183}
-                    alt="logo"
-                />
-            </MarginAutoDiv>
-            <MarginAutoDiv
+            <div
                 style={{
-                    width: 350,
-                    height: 350,
-                    backgroundColor: "white",
-                    borderRadius: 200,
+                    position: "absolute",
+                    right: 75,
+                    top: 200,
                 }}>
-                <div style={{ paddingTop: 50, marginLeft: 30 }}>
-                    <Image
-                        src="/Images/house.png"
-                        width={299}
-                        height={235}
-                        alt="logo"
-                    />
-                </div>
-            </MarginAutoDiv>
-            <div style={{ display: "flex" }}>
-                <MarginAutoDiv>
+                <div>
                     <TitleDiv>ID</TitleDiv>
                     <CheckInput
                         formatcheck={expression.test(email).toString()}
@@ -60,129 +117,48 @@ const Login = () => {
                             dispatch(userAction.user_setEmail(e.target.value))
                         }
                     />
-                </MarginAutoDiv>
-                <MarginAutoDiv>
+                </div>
+                <div>
                     <TitleDiv>Password</TitleDiv>
                     <CheckInput
                         formatcheck={"true"}
                         placeholder="password"
                         value={password}
+                        onKeyDown={() => SignIn()}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             dispatch(
                                 userAction.user_setPassword(e.target.value),
                             )
                         }
                     />
-                </MarginAutoDiv>
-            </div>
-            <MarginAutoDiv>
-                <div>
-                    <GreenButton
-                        onClick={async () => {
-                            const res = await CheckUser(email);
-                            if (res) {
-                                dispatch(
-                                    settingAction.setSnackbar({
-                                        snackbarOpen: true,
-                                        snackbarType: "success",
-                                        snackbarMessage:
-                                            "로그인에 성공하였습니다.",
-                                    }),
-                                );
-                                dispatch(settingAction.setIsLoginSuccess(true));
-                                dispatch(
-                                    userAction.setUserInfo({
-                                        id: email,
-                                    }),
-                                );
-                                const result = await getUser(email).then(
-                                    (r) => r,
-                                );
-                                if (result) {
-                                    console.log(result);
-                                    dispatch(
-                                        userAction.setUserInfo({
-                                            id: email,
-                                            groupLeader: result.groupLeader,
-                                            group: result.groupLeader
-                                                ? true
-                                                : false,
-                                        }),
-                                    );
-                                }
+                </div>
 
-                                dispatch(userAction.user_setEmail(""));
-                                dispatch(userAction.user_setPassword(""));
-                            } else {
-                                dispatch(
-                                    settingAction.setSnackbar({
-                                        snackbarOpen: true,
-                                        snackbarType: "error",
-                                        snackbarMessage:
-                                            "로그인에 실패했습니다.",
-                                    }),
-                                );
-                            }
-                        }}>
-                        SIGN IN
-                    </GreenButton>
+                <div>
+                    <PinkButton onClick={SignIn}>SIGN IN</PinkButton>
                 </div>
                 <div>
-                    <GreenButton
-                        onClick={async () => {
-                            const res = await CheckUser(email);
-                            if (res) {
-                                dispatch(
-                                    settingAction.setSnackbar({
-                                        snackbarOpen: true,
-                                        snackbarType: "error",
-                                        snackbarMessage:
-                                            "이미 등록된 아이디입니다.",
-                                    }),
-                                );
-                            } else {
-                                const res = await AddUser(email);
-                                if (res.success) {
-                                    dispatch(
-                                        settingAction.setSnackbar({
-                                            snackbarOpen: true,
-                                            snackbarType: "success",
-                                            snackbarMessage: res.message,
-                                        }),
-                                    );
-                                } else {
-                                    dispatch(
-                                        settingAction.setSnackbar({
-                                            snackbarOpen: true,
-                                            snackbarType: "error",
-                                            snackbarMessage: res.message,
-                                        }),
-                                    );
-                                }
-                            }
-                        }}>
-                        SIGN UP
-                    </GreenButton>
+                    <PinkButton onClick={SingUp}>SIGN UP</PinkButton>
                 </div>
-            </MarginAutoDiv>
+            </div>
         </RootDiv>
     );
 };
 
 export default Login;
 
-const GreenButton = styled.button`
-    width: 300px;
-    height: 35px;
-    line-height: 35px;
+const PinkButton = styled.button`
+    width: 200px;
+    height: 30px;
+    line-height: 30px;
     vertical-align: middle;
-    background-color: #066b1c;
+    font-size: 12px;
+    background-color: pink;
     border: none;
     border-radius: 3px;
     color: white;
-    margin-top: 30px;
+    margin-top: 10px;
     &:hover {
-        background-color: green;
+        background-color: #f567bc;
         cursor: pointer;
     }
 `;
