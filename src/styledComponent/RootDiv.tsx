@@ -8,4 +8,5 @@ export const RootDiv = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: yellow;
+    display: flex;
 `;

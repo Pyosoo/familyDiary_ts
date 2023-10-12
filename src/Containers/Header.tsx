@@ -59,15 +59,12 @@ export default function Header() {
 
 const MyHeader = styled.div`
     display: flex;
-    position: absolute;
-    top: 0;
     width: 100%;
     height: 50px;
     line-height: 50px;
     vertical-align: middle;
     background-color: yellow;
     justify-content: center;
-    margin-bottom: 50px;
     background-color: green;
 `;
 

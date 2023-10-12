@@ -14,4 +14,5 @@ export const CheckInput = styled.input<InputProps>`
     border-width: 2px 4px 2px 4px;
     border-style: solid;
     outline: none;
+    padding: 0 15px;
 `;

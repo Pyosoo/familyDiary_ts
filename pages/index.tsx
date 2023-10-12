@@ -3,11 +3,7 @@ import MainCalander from "@src/Containers/MainCalander";
 import React from "react";
 
 const Page: React.FC = () => {
-    return (
-        <>
-            <Main />
-        </>
-    );
+    return <>index.tsx</>;
 };
 
 export default Page;

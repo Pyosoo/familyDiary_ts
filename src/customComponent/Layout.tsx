@@ -6,6 +6,8 @@ import styled from "styled-components";
 import Header from "@src/Containers/Header";
 import React, { ReactNode } from "react";
 import { RootDiv } from "@src/styledComponent/RootDiv";
+import { Div512 } from "@src/styledComponent/Div512";
+import MainCalander from "@src/Containers/MainCalander";
 
 interface WrapperProps {
     children: ReactNode;
@@ -13,8 +15,13 @@ interface WrapperProps {
 export default function Layout({ children }) {
     return (
         <RootDiv>
-            <Header />
-            <div style={{ paddingTop: "50px" }}>{children}</div>
+            <Div512>
+                <div style={{ paddingTop: "50px" }}>{children}</div>
+            </Div512>
+            <Div512>
+                <Header />
+                <MainCalander />
+            </Div512>
         </RootDiv>
     );
 }
