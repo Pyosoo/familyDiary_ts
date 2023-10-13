@@ -18,7 +18,7 @@ export default function Layout({ children }) {
             <Div512>
                 <div style={{ paddingTop: "50px" }}>{children}</div>
             </Div512>
-            <Div512>
+            <Div512 style={{ backgroundColor: "white" }}>
                 <Header />
                 <MainCalander />
             </Div512>

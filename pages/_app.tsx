@@ -15,7 +15,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     const isLoginSuccess = useSelector(
         (state: RootState) => state.setting.isLoginSuccess,
     );
-    console.log(store);
     return (
         <PersistGate loading={null} persistor={store.__persistor}>
             <CustomSnackbar />
