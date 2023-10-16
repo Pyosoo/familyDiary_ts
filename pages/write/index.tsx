@@ -5,13 +5,15 @@ import useAuth from "@src/hooks/useAuth";
 import { RootState } from "@src/store";
 import { diaryAction } from "@src/store/reducer/diary/diary";
 import { settingAction } from "@src/store/reducer/setting/setting";
-import { Div1024 } from "@src/styledComponent/Div1024";
+import { PaperDiv } from "@src/styledComponent/PaperDiv";
 import { Div400 } from "@src/styledComponent/Div400";
 import { FlexDiv } from "@src/styledComponent/FlexDiv";
 import { Router, useRouter } from "next/router";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import Image from "next/image";
+import { MyButton } from "@src/customComponent/MyBUtton";
 
 export default function Page() {
     useAuth();
@@ -21,6 +23,20 @@ export default function Page() {
     const dispatch = useDispatch();
 
     const writeDiaryFunc = async () => {
+        if (
+            diaryNew.title.trim().length < 1 ||
+            diaryNew.content.trim().length < 1
+        ) {
+            dispatch(
+                settingAction.setSnackbar({
+                    snackbarOpen: true,
+                    snackbarType: "error",
+                    snackbarMessage: "일기를 작성해주세요.",
+                }),
+            );
+            return;
+        }
+
         const result = await writeDiary(
             userId,
             diaryNew.title,
@@ -54,10 +70,13 @@ export default function Page() {
     };
 
     return (
-        <Div1024>
+        <PaperDiv>
+            <div style={{ position: "absolute", top: -38, left: 215 }}>
+                <Image alt="" src={"/Images/pen.png"} width={25} height={25} />
+            </div>
             <FlexDiv>
-                <SubTitle>일기제목</SubTitle>
                 <TypingInput
+                    placeholder="제목을 적어주세요"
                     value={diaryNew.title}
                     onTyping={(str: string) =>
                         dispatch(
@@ -70,8 +89,8 @@ export default function Page() {
                 />
             </FlexDiv>
             <FlexDiv>
-                <SubTitle>일기내용</SubTitle>
                 <TypingTextArea
+                    placeholder="오늘 하루는 어땠나요?"
                     value={diaryNew.content}
                     onTyping={(str: string) =>
                         dispatch(
@@ -84,18 +103,7 @@ export default function Page() {
                 />
             </FlexDiv>
 
-            <button onClick={writeDiaryFunc}>작성</button>
-        </Div1024>
+            <MyButton onClick={writeDiaryFunc}>작성</MyButton>
+        </PaperDiv>
     );
 }
-
-const SubTitle = styled.div`
-    width: 100px;
-    height: 40px;
-    line-height: 40px;
-    vertical-align: middle;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 600;
-    color: #202421;
-`;

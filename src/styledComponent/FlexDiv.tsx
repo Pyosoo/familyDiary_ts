@@ -6,4 +6,5 @@ export const FlexDiv = styled.div`
     border-radius: 3px;
     margin-top: 10px;
     margin-bottom: 10px;
+    justify-content: center;
 `;

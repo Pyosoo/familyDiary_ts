@@ -13,6 +13,7 @@ import { settingAction } from "@src/store/reducer/setting/setting";
 import { RootState } from "@src/store";
 import { userAction } from "@src/store/reducer/user/user";
 import { diaryAction } from "@src/store/reducer/diary/diary";
+import { green } from "@mui/material/colors";
 
 export default function MyPage() {
     const [inviteMember, setInviteMember] = useState<string>("");
@@ -20,6 +21,7 @@ export default function MyPage() {
     const dispatch = useDispatch();
 
     const userId = useSelector((state: RootState) => state.user.userInfo.id);
+    const userInfo = useSelector((state: RootState) => state.user.userInfo);
     const groupList = useSelector((state: RootState) => state.diary.groupList);
 
     useEffect(() => {
@@ -33,6 +35,7 @@ export default function MyPage() {
 
         async function getGroupApi() {
             const data = await getGroupList(userId);
+            console.log(data);
             if (data) {
                 dispatch(diaryAction.setGroupList(data));
             }
@@ -69,9 +72,11 @@ export default function MyPage() {
             {/* {loginInfo.loginId} */}
             <h3 onClick={() => console.log(groupList)}>그룹 관리</h3>
             <SectionDiv>
-                그룹 생성하기 1인 1그룹을 원칙으로 함. 그룹장일시 다른그룹
-                참여불가. 그룹원일시 그룹생성 불가.
-                <button
+                <div>그룹은 1인 1그룹만 가능합니다.</div>
+                <div>그룹에 소속되어있을 경우 그룹 생성이 불가능합니다.</div>
+                <div>그룹장 이외엔 그룹 초대/추방이 불가능합니다.</div>
+                <div>일기는 1일 1회만 작성 가능합니다.</div>
+                <MyButton
                     onClick={async () => {
                         const result = await makeGroup(userId).then(
                             (res) => res,
@@ -96,22 +101,23 @@ export default function MyPage() {
                         }
                     }}>
                     그룹 생성
-                </button>
+                </MyButton>
             </SectionDiv>
-
+            <hr />
             <SectionDiv>
                 <div>
+                    <div>그룹원 초대하기</div>
                     <input
                         value={inviteMember}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             setInviteMember(e.target.value)
                         }
                     />
-                    <button onClick={handleInviteGroup}>그룹초대</button>
+                    <MyButton onClick={handleInviteGroup}>초대</MyButton>
                 </div>
 
+                <hr />
                 <div>그룹원 리스트</div>
-                <div>그룹장:</div>
                 <div>
                     {groupList
                         .filter((member) => member !== userId)
@@ -119,43 +125,54 @@ export default function MyPage() {
                             return (
                                 <div key={i}>
                                     {d}
-                                    <button
-                                        onClick={async () => {
-                                            const result =
-                                                await deleteGroupMember(
-                                                    userId,
-                                                    d,
-                                                );
-                                            if (result.success) {
-                                                dispatch(
-                                                    settingAction.setSnackbar({
-                                                        snackbarOpen: true,
-                                                        snackbarType: "success",
-                                                        snackbarMessage:
-                                                            result.message,
-                                                    }),
-                                                );
-                                                dispatch(
-                                                    diaryAction.setGroupList(
-                                                        groupList.filter(
-                                                            (member) =>
-                                                                member !== d,
+                                    {userInfo.groupLeader === userId ? (
+                                        <MyButton
+                                            onClick={async () => {
+                                                const result =
+                                                    await deleteGroupMember(
+                                                        userId,
+                                                        d,
+                                                    );
+                                                if (result.success) {
+                                                    dispatch(
+                                                        settingAction.setSnackbar(
+                                                            {
+                                                                snackbarOpen:
+                                                                    true,
+                                                                snackbarType:
+                                                                    "success",
+                                                                snackbarMessage:
+                                                                    result.message,
+                                                            },
                                                         ),
-                                                    ),
-                                                );
-                                            } else {
-                                                dispatch(
-                                                    settingAction.setSnackbar({
-                                                        snackbarOpen: true,
-                                                        snackbarType: "error",
-                                                        snackbarMessage:
-                                                            result.message,
-                                                    }),
-                                                );
-                                            }
-                                        }}>
-                                        삭제
-                                    </button>
+                                                    );
+                                                    dispatch(
+                                                        diaryAction.setGroupList(
+                                                            groupList.filter(
+                                                                (member) =>
+                                                                    member !==
+                                                                    d,
+                                                            ),
+                                                        ),
+                                                    );
+                                                } else {
+                                                    dispatch(
+                                                        settingAction.setSnackbar(
+                                                            {
+                                                                snackbarOpen:
+                                                                    true,
+                                                                snackbarType:
+                                                                    "error",
+                                                                snackbarMessage:
+                                                                    result.message,
+                                                            },
+                                                        ),
+                                                    );
+                                                }
+                                            }}>
+                                            삭제
+                                        </MyButton>
+                                    ) : null}
                                 </div>
                             );
                         })}
@@ -167,6 +184,22 @@ export default function MyPage() {
 
 const SectionDiv = styled.div`
     margin: 15px 0;
-    border: 1px solid gray;
     border-radius: 5px;
+    color: #83ab82;
+    font-weight: 800;
+`;
+
+const MyButton = styled.button`
+    background-color: #83ab82;
+    width: 100px;
+    height: 25px;
+    lineheight: "25px";
+    border-radius: 3px;
+    margin: 3px;
+    color: white;
+    outline: none;
+    border: none;
+    &:hover {
+        cursor: pointer;
+    }
 `;

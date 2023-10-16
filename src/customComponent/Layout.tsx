@@ -16,7 +16,7 @@ export default function Layout({ children }) {
     return (
         <RootDiv>
             <Div512>
-                <div style={{ paddingTop: "50px" }}>{children}</div>
+                <div>{children}</div>
             </Div512>
             <Div512 style={{ backgroundColor: "white" }}>
                 <Header />

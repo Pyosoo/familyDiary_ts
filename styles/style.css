@@ -34,7 +34,7 @@ body {
 .react-calendar button {
     font-family: "BMJUA", sans-serif !important;
     font-weight: 400;
-    margin: 21px 0 !important;
+    margin: 19px 0 !important;
 }
 .react-calendar {
     width: 350px;
@@ -54,7 +54,7 @@ body {
     color: #fafafa;
 }
 .react-calendar__tile--active {
-    background: #7fb77e;
+    background: #83ab82 !important;
     color: white;
 }
 .react-calendar__tile--active:enabled:hover,

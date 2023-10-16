@@ -50,7 +50,7 @@ export default function Header() {
                         dispatch(userAction.user_setEmail(""));
                         dispatch(userAction.user_setPassword(""));
                     }}>
-                    로그아웃
+                    LogOut
                 </LogoutBtn>
             </SubLine>
         </MyHeader>
@@ -63,14 +63,15 @@ const MyHeader = styled.div`
     height: 50px;
     line-height: 50px;
     vertical-align: middle;
-    background-color: yellow;
     justify-content: center;
-    background-color: green;
+    background-color: white;
 `;
 
 const LogoutBtn = styled.button`
     background-color: transparent;
-    color: white;
+    color: #83ab82;
+    font-size: 1rem;
+    font-weight: 800;
     border: none;
     &:hover {
         cursor: pointer;
@@ -85,8 +86,7 @@ const SubLine = styled.div`
 
 const TitleDiv = styled.div`
     font-size: 1.2rem;
-    color: blue;
-    color: white;
+    color: #83ab82;
     &:hover {
         cursor: pointer;
         font-weight: bold;
@@ -97,6 +97,7 @@ const SubTitleDiv = styled.div`
     font-size: 1rem;
     margin-left: 5px;
     margin-right: 5px;
+    color: #83ab82;
     &:hover {
         font-weight: bold;
         cursor: pointer;

@@ -206,9 +206,11 @@ export async function getGroupList(id: string){
     let result = [];
     try{
         const userInfo = await get(userRef);
+        console.log(userInfo.val())
         if(userInfo.val().groupLeader){
             const groupInfo = await get(ref(database, `/group/${userInfo.val().groupLeader}`));
             result = Object.keys(groupInfo.val());
+            console.log(result)
         }
         return result;
     } catch(err) {
@@ -225,7 +227,9 @@ export async function deleteGroupMember(leader: string, id: string){
 
     const groupValue = await get(groupRef);
     const userValue = await get(userRef);
-
+    console.log(groupValue.val())
+    console.log(userValue.val());
+    return ;
     try{
         let newGroup = {...groupValue.val()};
         delete newGroup[id];

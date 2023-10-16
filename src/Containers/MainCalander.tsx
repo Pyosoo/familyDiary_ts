@@ -47,10 +47,14 @@ export default function MainCalander() {
                 style={{
                     width: 512,
                     height: 780,
+                    padding: 10,
                 }}>
                 <Calendar
+                    prev2Label="<<"
+                    prevLabel="<"
+                    nextLabel=">"
+                    next2Label=">>"
                     onChange={(value: Date) => {
-                        console.log("실행");
                         dispatch(settingAction.setSelectDate(value));
                     }}
                     defaultValue={new Date()}

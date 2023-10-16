@@ -7,6 +7,7 @@ export const RootDiv = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: yellow;
+    background-color: white;
+    border: 5px solid green;
     display: flex;
 `;
