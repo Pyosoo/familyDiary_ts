@@ -56,7 +56,14 @@ function Read(props) {
                     );
                 })
             ) : (
-                <div>이날의 첫 일기를 작성해보세요!</div>
+                <div
+                    style={{
+                        textAlign: "center",
+                        marginTop: 300,
+                        fontWeight: 800,
+                    }}>
+                    이날의 첫 일기를 작성해보세요!
+                </div>
             )}
         </>
     );
